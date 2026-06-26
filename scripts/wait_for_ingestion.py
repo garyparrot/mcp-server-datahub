@@ -27,7 +27,7 @@ def infer_kafka_broker_container() -> str:
     result = subprocess.run(
         "docker ps --format '{{.Names}}' | grep broker",
         capture_output=True,
-        shell=True,
+        shell=False,
         text=True,
     ).stdout.splitlines()
     if not result:
@@ -62,7 +62,7 @@ def wait_for_writes_to_sync(
         try:
             # 5s timeout per call - we retry every second, so longer timeouts aren't needed
             result = subprocess.run(
-                cmd, capture_output=True, shell=True, text=True, timeout=5
+                cmd, capture_output=True, shell=False, text=True, timeout=5
             ).stdout
             lag_values = [
                 int(line) for line in result.splitlines() if line and line.isdigit()
